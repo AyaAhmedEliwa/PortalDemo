@@ -1,0 +1,198 @@
+﻿@model EmployeeVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section JqueryUIStyle{
+    <link href="~/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Employee</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Employee Card</a></li>
+                    <li class="breadcrumb-item active">Create</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Create New Employee</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form asp-controller="Employee" asp-action="Create" method="post" enctype="multipart/form-data">
+                        @*<div asp-validation-summary="All" class="text-danger font-weight-bold"></div>*@
+                        @*this show all validation*@
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Name">Employee Name</label>
+                                <input type="text" asp-for="Name" class="form-control" placeholder="Enter Employee Name">
+                                <span asp-validation-for="Name" class="text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Salary">Employee Salary</label>
+                                <input type="text" asp-for="Salary" class="form-control" placeholder="Enter Employee Salary">
+                                <span asp-validation-for="Salary" class="text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email">Employee Email</label>
+                                <input type="text" asp-for="Email" class="form-control" placeholder="Enter Employee Email">
+                                <span asp-validation-for="Email" class="text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address">Employee Address</label>
+                                <input type="text" asp-for="Address" class="form-control" placeholder="Enter Employee Address">
+                                <span asp-validation-for="Address" class="text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="HireDate">Hire Date</label>
+                                <input type="text" autocomplete="off" asp-for="HireDate" class="form-control" id="datepicker" placeholder="Enter HireDate">
+                                <span asp-validation-for="HireDate" class="text-danger font-weight-bold"></span>
+                            </div> @*autocomplete="off" : to dont show later put dates*@
+
+                            <div class="form-group">
+                                <label asp-for="Notes">Employee Notes</label>
+                                <textarea rows="4" asp-for="Notes" class="form-control" placeholder="Enter Employee Notes "></textarea>
+                                <span asp-validation-for="Notes" class="text-danger font-weight-bold"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DepartmentId" >Departments</label>
+                                <select asp-for="DepartmentId" class="form-control" asp-items="(SelectList)ViewBag.DepartmentList">
+                                    <option>Choose Department</option>
+                                </select>
+                                <div class="form-group">
+                                    <label>Countries</label>
+                                    <select id="CountryList" class="form-control" asp-items="(SelectList)ViewBag.CountryList">
+                                        <option>Choose Country</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cities</label>
+                                    <select id="CityList" class="form-control">
+                                        <option>Choose City</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="DistrictId">Districts</label>
+                                    <select asp-for="DistrictId" id="DistrictList" class="form-control">
+                                        <option>Choose District</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Image">Upload Image</label>
+                                    <input type="file" asp-for="Image" class="form-control" accept=".jpg, .png">
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CV">Upload CV</label>
+                                    <input type="file" asp-for="CV" class="form-control" multiple accept=".pdf, .csv">
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" asp-for="IsActive" checked class="form-check-input">
+                                    <label class="form-check-label" asp-for="IsActive">IsActive</label>
+                                </div>
+
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <center>
+                                    <input type="submit" value="Save" class="btn btn-primary" />
+                                    <a asp-controller="Employee" asp-action="index" class="btn btn-success">Cancel</a>
+                                </center>
+                            </div>
+</form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+<!-- /.content -->
+
+
+@section InputScript{
+    <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+            $("#datepicker").datepicker();
+
+
+            $("#CountryList").change(function () {
+
+                var countryId = $("#CountryList option:selected").val();
+
+                $("#CityList").empty();
+                $("#DistrictList").empty();
+
+                $("#CityList").append("<option>Choose City</option>");
+                $("#DistrictList").append("<option>Choose District</option>");
+
+                $.ajax({
+
+                    type: "Post",
+                    url: "/Employee/GetCityByCountryId",
+                    data: { CntryId: countryId },
+                    success: function (res) {
+
+                        $.each(res, function (i, e) { 
+
+                            $("#CityList").append("<option value='" + e.Id + "'>" + e.Name + "</option>");
+
+                        });
+                    }
+
+                });
+
+            });
+
+            $("#CityList").change(function () {
+
+                var cityId = $("#CityList option:selected").val();
+
+                $.ajax({
+
+                    type: "Post",
+                    url: "/Employee/GetDistrictByCityId",
+                    data: { cityId: cityId },
+                    success: function (res) {
+
+                        $.each(res, function (i, e) {
+
+                            $("#DistrictList").append("<option value='" + e.Id + "'>" + e.Name + "</option>");
+
+                        });
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
+}
+
+@section JqueryValidation{
+    <script src="~/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

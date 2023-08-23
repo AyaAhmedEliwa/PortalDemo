@@ -1,0 +1,112 @@
+﻿@model IEnumerable<DepartmentVM>
+
+@{
+    ViewBag.Title = "Department";
+}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Departments</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Department</a></li>
+                    <li class="breadcrumb-item active">Department Card</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+
+<br/>
+
+@*<center>
+    <h1>
+        @ViewData["x"]
+    </h1>
+
+    <h1>
+        @ViewBag.x
+    </h1>
+
+    <h1>
+        @TempData["x"]
+    </h1>
+    
+</center>*@
+
+
+<!-- Dropdown List -->
+@*<select class="form-control">
+
+    <option>Choose Employee Name: </option>
+    @foreach (var item in ViewBag.names)
+    {
+        <option>@item</option>
+    }
+
+</select>*@
+
+@*<ul>
+    @foreach (var item in ViewBag.names)
+    {
+        <li><option>@item</option></li>
+    }
+
+</ul>*@            
+
+<!-- Data List can search in-->
+@*<input type="text" list="mylist"/>
+<datalist id="mylist">
+    @foreach (var item in ViewBag.names)
+    {
+        <option>@item</option>
+    }
+</datalist>*@
+
+
+<section class="content">
+    <div class="container-fluid">
+
+        <a asp-controller="Department" asp-action="Create" class="btn btn-primary">Create New Department</a>
+        <br />
+        <br />
+        <table class="table table-hover table-bordered table-striped text-center font-weight-bold">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Code</td>
+                        <td>
+                            <a asp-controller="Department" asp-action="Update" asp-route-id="@item.Id" class="btn btn-success">Update</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Department" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Department" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                        </td>
+                    </tr>
+                }                
+            </tbody>
+        </table>
+
+    </div>
+</section>

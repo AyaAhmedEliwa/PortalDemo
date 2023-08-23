@@ -1,0 +1,105 @@
+﻿@model EmployeeVM
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Employee</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Employee Card</a></li>
+                    <li class="breadcrumb-item active">Delete</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <a asp-controller="Employee" asp-action="index" class="btn btn-success">Return</a>
+        <br /><br />
+
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Delete Employee @Model.Name</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form asp-controller="Employee" asp-action="Delete" method="post">
+                        @*<div asp-validation-summary="All" class="text-danger font-weight-bold"></div>*@
+                        @*this show all validation*@
+
+                        <input type="hidden" asp-for="Id" /> @*This is the most important step in update is that to send id to server*@
+                        <input type="hidden" asp-for="ImageName" />
+                        <input type="hidden" asp-for="CVName" />
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Name">Employee Name</label>
+                                <input type="text" asp-for="Name" class="form-control" placeholder="Enter Employee Name" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Salary">Employee Salary</label>
+                                <input type="text" asp-for="Salary" class="form-control" placeholder="Enter Employee Salary" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email">Employee Email</label>
+                                <input type="text" asp-for="Email" class="form-control" placeholder="Enter Employee Email" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address">Employee Address</label>
+                                <input type="text" asp-for="Address" class="form-control" placeholder="Enter Employee Address" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="HireDate">Hire Date</label>
+                                <input type="text" autocomplete="off" asp-for="HireDate" class="form-control" id="datepicker" placeholder="Enter HireDate" disabled>
+                            </div> @*autocomplete="off" : to dont show later put dates*@
+
+                            <div class="form-group">
+                                <label asp-for="Notes">Employee Notes</label>
+                                <textarea rows="4" asp-for="Notes" class="form-control" placeholder="Enter Employee Notes "></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DepartmentId">Departments</label>
+                                <input type="text" asp-for="DepartmentName" class="form-control" disabled />
+                            </div>
+
+                            @*<div class="form-group">
+                                <label asp-for="DistrictId">District</label>
+                                <input type="text" asp-for="District.Name" class="form-control" disabled />
+                            </div>*@
+                            <div class="form-group">
+                                <input type="checkbox" asp-for="IsActive" checked class="form-check-input" disabled>
+                                <label class="form-check-label" asp-for="IsActive">IsActive</label>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <center>
+                                <input type="submit" value="Delete" class="btn btn-primary" />
+                                <a asp-controller="Employee" asp-action="index" class="btn btn-success">Cancel</a>
+                            </center>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+<!-- /.content -->
